@@ -233,6 +233,26 @@ static int disable(void)
     return btif_disable_bluetooth();
 }
 
+static int enable_radio( void )
+{
+    ALOGI("enable");
+
+    /* sanity check */
+    if (interface_ready() == FALSE)
+        return BT_STATUS_NOT_READY;
+
+    return BT_STATUS_NOT_READY;
+}
+
+static int disable_radio(void)
+{
+    /* sanity check */
+    if (interface_ready() == FALSE)
+        return BT_STATUS_NOT_READY;
+
+    return BT_STATUS_NOT_READY;
+}
+
 static void cleanup( void )
 {
     /* sanity check */
@@ -460,6 +480,12 @@ static const void* get_testapp_interface(int test_app_profile)
 }
 
 #endif //TEST_APP_INTERFACE
+
+static const void* get_fm_interface()
+{
+    ALOGI("get_fm_interface " );
+    return NULL;
+}
 
 int dut_mode_configure(uint8_t enable)
 {
@@ -847,6 +873,8 @@ static const bt_interface_t bluetoothInterface = {
     initq,
     enable,
     disable,
+    enable_radio,
+    disable_radio,
     cleanup,
     ssrcleanup,
     get_adapter_properties,
@@ -888,6 +916,7 @@ static const bt_interface_t bluetoothInterface = {
     NULL,
 #endif
     config_hci_snoop_log,
+    get_fm_interface,
 #if BLE_INCLUDED == TRUE
     bt_le_extended_scan,
     bt_le_lpp_write_rssi_threshold,
